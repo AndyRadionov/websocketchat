@@ -113,23 +113,29 @@
 <script type="text/javascript" src="./js/chat.js"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
-        $("#registerBtn").click(function () {
-            var jqxhr = $.post("/api/signup", $("#userForm").serialize());
-            jqxhr.done(function () {
-                $("#userLogin").text($("#loginInput").val());
-                $("#loginForm").hide();
-                $("#logoutForm").show();
-                $("#helloMessageContainer").hide();
-                $("#chatContainer").show();
-                $("#autoHideModal").modal('show');
-            });
-            jqxhr.fail(function (e) {
-                $("#modal").modal('show');
-                $(".modal-title").text("Error");
-                $("#modalMessage").text(e["responseText"]);
-            });
-        });
+
+        $("#registerBtn").click(loginFormProcess("/api/signup"));
+
+        $("#loginBtn").click(loginFormProcess("/api/login"));
     });
+
+    var loginFormProcess = function (url) {
+        var jqxhr = $.post(url, $("#userForm").serialize());
+        jqxhr.done(function () {
+            $("#userLogin").text($("#loginInput").val());
+            $("#loginForm").hide();
+            $("#logoutForm").show();
+            $("#helloMessageContainer").hide();
+            $("#chatContainer").show();
+            $("#autoHideModal").modal('show');
+        });
+        jqxhr.fail(function (e) {
+            $("#modal").modal('show');
+            $(".modal-title").text("Error");
+            $("#modalMessage").text(e["responseText"]);
+        });
+    };
+
     $('#autoHideModal').on('show.bs.modal', function () {
         var modal = $(this);
         clearTimeout(modal.data('hideInterval'));
