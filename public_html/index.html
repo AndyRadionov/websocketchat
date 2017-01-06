@@ -123,7 +123,6 @@
         });
 
         $("#logoutBtn").click(function() {
-            loginFormProcess("/api/login")
             var jqxhr = $.post(url, "login=" + $("#userLogin").text());
             jqxhr.done(function () {
                 $("#userLogin").hide();

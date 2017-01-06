@@ -1,8 +1,6 @@
 package com.aradionov.socketchat.main;
 
 import com.aradionov.socketchat.dao.DBManager;
-import com.aradionov.socketchat.dao.MessageDao;
-import com.aradionov.socketchat.dao.UserDao;
 import com.aradionov.socketchat.servlets.LoginServlet;
 import com.aradionov.socketchat.servlets.LogoutServlet;
 import com.aradionov.socketchat.servlets.RegisterServlet;
@@ -23,7 +21,7 @@ public class Main {
         ServletContextHandler servletHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         servletHandler.addServlet(new ServletHolder(new RegisterServlet(dbManager)), RegisterServlet.PATH);
         servletHandler.addServlet(new ServletHolder(new LoginServlet(dbManager)), LoginServlet.PATH);
-        servletHandler.addServlet(new ServletHolder(new LogoutServlet()), LogoutServlet.PATH);
+        servletHandler.addServlet(new ServletHolder(new LogoutServlet(dbManager)), LogoutServlet.PATH);
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
