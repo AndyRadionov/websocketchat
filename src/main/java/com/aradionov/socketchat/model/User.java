@@ -1,15 +1,37 @@
 package com.aradionov.socketchat.model;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author Andrey Radionov
  */
-public class User {
+
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "ID", columnDefinition = "BIGINT")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "LOGIN", columnDefinition = "VARCHAR", length = 15, unique = true)
     private String login;
+
+    @Column(name = "REGISTER_DATE", columnDefinition = "TIMESTAMP")
     private Date registerDate;
+
+    @Column(name = "PASSWORD", columnDefinition = "VARCHAR")
     private String password;
+
+    @Column(name = "SALT", columnDefinition = "VARCHAR")
     private String salt;
+
+    @Column(name = "ROLE", columnDefinition = "VARCHAR")
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     public User() {
@@ -21,6 +43,14 @@ public class User {
         this.password = password;
         this.salt = salt;
         this.role = role;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getLogin() {
