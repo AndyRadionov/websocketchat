@@ -10,6 +10,8 @@ import java.io.IOException;
  * @author Andrey Radionov
  */
 public class RegisterServlet extends HttpServlet {
+    public static final String PATH = "/api/signup";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
