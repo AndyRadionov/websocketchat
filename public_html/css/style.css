@@ -14,3 +14,7 @@ textarea {
     color: #ababab;
     font-size: 14pt;
 }
+
+.center-text {
+    text-align: center;
+}

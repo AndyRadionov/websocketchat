@@ -85,6 +85,16 @@
     </footer>
 </div>
 
+<div id="autoHideModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body center-text">
+                <h2>Successfully logged in!</h2>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./js/chat.js"></script>
@@ -98,9 +108,16 @@
                 $("#logoutForm").show();
                 $("#helloMessageContainer").hide();
                 $("#chatContainer").show();
+                $('#autoHideModal').modal('show');
             })
         });
     });
+    $('#autoHideModal').on('show.bs.modal', function () {
+        var modal = $(this);
+        clearTimeout(modal.data('hideInterval'));
+        modal.data('hideInterval', setTimeout(function(){
+            modal.modal('hide');
+        }, 2000));
+    });
 </script>
-</body>
 </html>
