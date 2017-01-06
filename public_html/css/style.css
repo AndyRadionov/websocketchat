@@ -2,10 +2,15 @@ textarea {
     resize: none;
 }
 
-#chatContainer, #logoutBtn {
+#chatContainer, #logoutForm {
     display: none;
 }
 
 #helloMessageContainer {
     text-align: center;
+}
+
+#userLogin {
+    color: #ababab;
+    font-size: 14pt;
 }
