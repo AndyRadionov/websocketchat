@@ -3,6 +3,7 @@ package com.aradionov.socketchat.dao;
 
 import com.aradionov.socketchat.model.Message;
 import com.aradionov.socketchat.model.User;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -22,8 +23,8 @@ public class DBManager {
         sessionFactory = createSessionFactory(configuration);
     }
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public Session getSession() {
+        return sessionFactory.openSession();
     }
 
     private Configuration getH2Configuration() {
