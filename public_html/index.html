@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>JChat</title>
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <p class="navbar-brand">JChat</p>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right">
+                <div id="loginForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Login" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" class="form-control">
+                    </div>
+                    <button type="button" class="btn btn-success" id="loginBtn">Log in</button>
+                    <button type="button" class="btn btn-success" id="registerBtn">Register</button>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-success" id="logoutBtn">Log out</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row" id="helloMsg">
+
+    </div>
+
+    <div class="row" id="chatContainer">
+        <div class="col-xs-9">
+            <div class="form-group">
+                <textarea class="form-control" rows="5" id="messages" readonly></textarea>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Message">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Send</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-3 sidebar">
+            <div class="form-group">
+                <textarea class="form-control" rows="5" id="users" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2017 Andrey Radionov</p>
+    </footer>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/chat.js"></script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $("#loginBtn").click(function () {
+            $("#chatContainer").show();
+        });
+
+        $("#registerBtn").click(function () {
+            $("#logoutBtn").show();
+        })
+    });
+</script>
+</body>
+</html>

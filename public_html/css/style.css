@@ -1,0 +1,7 @@
+textarea {
+    resize: none;
+}
+
+#chatContainer, #logoutBtn {
+    display: none;
+}
