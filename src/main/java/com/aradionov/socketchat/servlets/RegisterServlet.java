@@ -4,8 +4,8 @@ import com.aradionov.socketchat.dao.DBManager;
 import com.aradionov.socketchat.dao.UserDao;
 import com.aradionov.socketchat.model.User;
 import com.aradionov.socketchat.model.UserRole;
-import com.aradionov.socketchat.util.PassEncryptUtil;
-import com.sun.deploy.net.HttpResponse;
+import com.aradionov.socketchat.util.PassEncryptTool;
+import com.aradionov.socketchat.util.ServletMessageProcessor;
 import org.hibernate.Session;
 
 import javax.servlet.ServletException;
@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Locale;
+
+import static com.aradionov.socketchat.util.ServletMessageProcessor.*;
 
 /**
  * @author Andrey Radionov
@@ -47,9 +48,9 @@ public class RegisterServlet extends HttpServlet {
         }
 
         try {
-            String salt = PassEncryptUtil.getSalt();
-            String encryptedPass = PassEncryptUtil.generateStrongPasswordHash(password, salt);
-            userDao.inserUser(new User(login, encryptedPass, salt, UserRole.USER));
+            byte[] salt = PassEncryptTool.getSalt();
+            String encryptedPass = PassEncryptTool.generateStrongPasswordHash(password, salt);
+            userDao.inserUser(new User(login, encryptedPass, PassEncryptTool.toHex(salt), UserRole.USER));
             resp.setStatus(HttpServletResponse.SC_CREATED);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             writeErrorMessage(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");
@@ -58,12 +59,5 @@ public class RegisterServlet extends HttpServlet {
         session.close();
     }
 
-    private void writeErrorMessage(HttpServletResponse resp, int status, String errorMessage) throws IOException {
-        resp.setStatus(status);
-        String json = String.format(Locale.ROOT, "{Error: %s}", errorMessage);
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write(json);
-    }
 }

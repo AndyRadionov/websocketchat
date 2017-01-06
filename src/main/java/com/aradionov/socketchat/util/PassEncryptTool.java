@@ -10,33 +10,30 @@ import java.security.spec.InvalidKeySpecException;
 /**
  * @author Andrey Radionov
  */
-public class PassEncryptUtil {
-    public static String generateStrongPasswordHash(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+public class PassEncryptTool {
+    public static String generateStrongPasswordHash(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         int iterations = 1000;
         char[] chars = password.toCharArray();
-        byte[] saltBytes = getSalt().getBytes();
 
-        PBEKeySpec spec = new PBEKeySpec(chars, saltBytes, iterations, 64 * 8);
+        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
         SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] hash = skf.generateSecret(spec).getEncoded();
         return toHex(hash);
     }
 
-    public static String getSalt() throws NoSuchAlgorithmException {
+    public static byte[] getSalt() throws NoSuchAlgorithmException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
         sr.nextBytes(salt);
-        return new String(salt);
+        return salt;
     }
 
-    private static String toHex(byte[] array) throws NoSuchAlgorithmException {
+    public static String toHex(byte[] array) throws NoSuchAlgorithmException {
         BigInteger bi = new BigInteger(1, array);
-        String hex = bi.toString(16);
-        int paddingLength = (array.length * 2) - hex.length();
-        if(paddingLength > 0) {
-            return String.format("%0" + paddingLength + "d", 0) + hex;
-        } else {
-            return hex;
-        }
+        return bi.toString(16);
+    }
+
+    public static byte[] fromHex(String hex) {
+        return new BigInteger(hex, 16).toByteArray();
     }
 }
