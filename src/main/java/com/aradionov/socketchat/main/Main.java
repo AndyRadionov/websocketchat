@@ -21,9 +21,9 @@ public class Main {
         DBManager dbManager = new DBManager();
 
         ServletContextHandler servletHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-      //  servletHandler.addServlet(new ServletHolder(new LoginServlet()), LoginServlet.PATH);
-        servletHandler.addServlet(new ServletHolder(new LogoutServlet()), LogoutServlet.PATH);
         servletHandler.addServlet(new ServletHolder(new RegisterServlet(dbManager)), RegisterServlet.PATH);
+        servletHandler.addServlet(new ServletHolder(new LoginServlet(dbManager)), LoginServlet.PATH);
+        servletHandler.addServlet(new ServletHolder(new LogoutServlet()), LogoutServlet.PATH);
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);

@@ -34,7 +34,7 @@ public class RegisterServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if (login.isEmpty() || password.isEmpty()) {
-            writeResponseMessage(resp, HttpServletResponse.SC_NOT_ACCEPTABLE, "Wrong Login/Password!");
+            writeResponseMessage(resp, HttpServletResponse.SC_BAD_REQUEST, "Wrong Login/Password!");
             return;
         }
 
@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
         UserDao userDao = new UserDao(session);
 
         if (userDao.getUserByLogin(login) != null) {
-            writeResponseMessage(resp, HttpServletResponse.SC_NOT_ACCEPTABLE, "Login already in use!");
+            writeResponseMessage(resp, HttpServletResponse.SC_BAD_REQUEST, "Login already in use!");
             return;
         }
 

@@ -31,7 +31,7 @@
                         <input type="text" placeholder="Login" name="login" id="loginInput" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="password" placeholder="Password" name="password" class="form-control">
+                        <input type="password" placeholder="Password" name="password" id="passInput" class="form-control">
                     </div>
                     <button type="button" class="btn btn-success" id="loginBtn">Log in</button>
                     <button type="button" class="btn btn-success" id="registerBtn">Register</button>
@@ -114,19 +114,40 @@
 <script type="text/javascript">
     $( document ).ready(function() {
 
-        $("#registerBtn").click(loginFormProcess("/api/signup"));
+        $("#registerBtn").click(function() {
+            loginFormProcess("/api/signup")
+        });
 
-        $("#loginBtn").click(loginFormProcess("/api/login"));
+        $("#loginBtn").click(function() {
+            loginFormProcess("/api/login")
+        });
+
+        $("#logoutBtn").click(function() {
+            loginFormProcess("/api/login")
+            var jqxhr = $.post(url, "login=" + $("#userLogin").text());
+            jqxhr.done(function () {
+                $("#userLogin").hide();
+                $("#logoutForm").hide();
+                $("#chatContainer").hide();
+                $("#helloMessageContainer").show();
+                $("#loginForm").show();
+                $("#autoHideModal h2").text("Successfully logged out!");
+                $("#autoHideModal").modal('show');
+            });
+        });
     });
 
     var loginFormProcess = function (url) {
         var jqxhr = $.post(url, $("#userForm").serialize());
+        $("#loginInput").val("");
+        $("#passInput").val("");
         jqxhr.done(function () {
             $("#userLogin").text($("#loginInput").val());
             $("#loginForm").hide();
             $("#logoutForm").show();
             $("#helloMessageContainer").hide();
             $("#chatContainer").show();
+            $("#autoHideModal h2").text("Successfully logged in!");
             $("#autoHideModal").modal('show');
         });
         jqxhr.fail(function (e) {

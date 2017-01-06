@@ -33,20 +33,20 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if (login.isEmpty() || password.isEmpty()) {
-            writeResponseMessage(resp, HttpServletResponse.SC_NOT_ACCEPTABLE, "Wrong Login/Password!");
+            writeResponseMessage(resp, HttpServletResponse.SC_BAD_REQUEST, "Wrong Login/Password!");
             return;
         }
 
         Session session = dbManager.getSession();
         UserDao userDao = new UserDao(session);
 
-        if (userDao.getUserByLogin(login) == null) {
-            writeResponseMessage(resp, HttpServletResponse.SC_NOT_ACCEPTABLE, "User not found!");
+        User user = userDao.getUserByLogin(login);
+        if (user == null) {
+            writeResponseMessage(resp, HttpServletResponse.SC_BAD_REQUEST, "User not found!");
             return;
         }
 
         try {
-            User user = userDao.getUserByLogin(login);
             byte[] salt = PassEncryptTool.fromHex(user.getSalt());
             String encryptedPass = PassEncryptTool.generateStrongPasswordHash(password, salt);
 
