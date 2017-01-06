@@ -123,7 +123,7 @@
         });
 
         $("#logoutBtn").click(function() {
-            var jqxhr = $.post(url, "login=" + $("#userLogin").text());
+            var jqxhr = $.post("/api/logout", "login=" + $("#userLogin").text());
             jqxhr.done(function () {
                 $("#userLogin").hide();
                 $("#logoutForm").hide();
@@ -133,13 +133,13 @@
                 $("#autoHideModal h2").text("Successfully logged out!");
                 $("#autoHideModal").modal('show');
             });
+            $("#loginInput").val("");
+            $("#passInput").val("");
         });
     });
 
     var loginFormProcess = function (url) {
         var jqxhr = $.post(url, $("#userForm").serialize());
-        $("#loginInput").val("");
-        $("#passInput").val("");
         jqxhr.done(function () {
             $("#userLogin").text($("#loginInput").val());
             $("#loginForm").hide();
