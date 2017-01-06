@@ -5,3 +5,7 @@ textarea {
 #chatContainer, #logoutBtn {
     display: none;
 }
+
+#helloMessageContainer {
+    text-align: center;
+}
