@@ -71,3 +71,5 @@ fabric.properties
 hs_err_pid*
 
 *.mv.db
+*.trace.db
+*.db

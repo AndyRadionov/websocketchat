@@ -94,6 +94,19 @@
         </div>
     </div>
 </div>
+<div id="modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.min.js"></script>
@@ -108,8 +121,13 @@
                 $("#logoutForm").show();
                 $("#helloMessageContainer").hide();
                 $("#chatContainer").show();
-                $('#autoHideModal').modal('show');
-            })
+                $("#autoHideModal").modal('show');
+            });
+            jqxhr.fail(function (e) {
+                $("#modal").modal('show');
+                $(".modal-title").text("Error");
+                $("#modalMessage").text(e["responseText"]);
+            });
         });
     });
     $('#autoHideModal').on('show.bs.modal', function () {

@@ -5,7 +5,6 @@ import com.aradionov.socketchat.dao.UserDao;
 import com.aradionov.socketchat.model.User;
 import com.aradionov.socketchat.model.UserRole;
 import com.aradionov.socketchat.util.PassEncryptTool;
-import com.aradionov.socketchat.util.ServletMessageProcessor;
 import org.hibernate.Session;
 
 import javax.servlet.ServletException;
@@ -35,7 +34,7 @@ public class RegisterServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if (login.isEmpty() || password.isEmpty()) {
-            writeErrorMessage(resp, HttpServletResponse.SC_NOT_ACCEPTABLE, "Wrong Login/Password!");
+            writeResponseMessage(resp, HttpServletResponse.SC_NOT_ACCEPTABLE, "Wrong Login/Password!");
             return;
         }
 
@@ -43,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
         UserDao userDao = new UserDao(session);
 
         if (userDao.getUserByLogin(login) != null) {
-            writeErrorMessage(resp, HttpServletResponse.SC_NOT_ACCEPTABLE, "Login already in use!");
+            writeResponseMessage(resp, HttpServletResponse.SC_NOT_ACCEPTABLE, "Login already in use!");
             return;
         }
 
@@ -53,7 +52,7 @@ public class RegisterServlet extends HttpServlet {
             userDao.inserUser(new User(login, encryptedPass, PassEncryptTool.toHex(salt), UserRole.USER));
             resp.setStatus(HttpServletResponse.SC_CREATED);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            writeErrorMessage(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");
+            writeResponseMessage(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");
         }
 
         session.close();
