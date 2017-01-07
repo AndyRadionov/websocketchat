@@ -18,9 +18,8 @@ public class Message implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id", nullable = false)
-    private User sender;
+    @Column(name = "sender", columnDefinition = "VARCHAR", nullable = false)
+    private String sender;
 
     @Column(name = "TEXT", columnDefinition = "VARCHAR")
     private String text;
@@ -31,7 +30,7 @@ public class Message implements Serializable {
     public Message() {
     }
 
-    public Message(User sender, String text) {
+    public Message(String sender, String text) {
         this.sender = sender;
         this.text = text;
         this.sendDate = new Date();
@@ -45,11 +44,11 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
@@ -67,5 +66,32 @@ public class Message implements Serializable {
 
     public void setSendDate(Date sendDate) {
         this.sendDate = sendDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+
+        if (id != message.id) return false;
+        if (sender != null ? !sender.equals(message.sender) : message.sender != null) return false;
+        if (text != null ? !text.equals(message.text) : message.text != null) return false;
+        return sendDate != null ? sendDate.equals(message.sendDate) : message.sendDate == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (sender != null ? sender.hashCode() : 0);
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + (sendDate != null ? sendDate.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return sender + ": " + text;
     }
 }

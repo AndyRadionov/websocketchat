@@ -92,4 +92,30 @@ public class User implements Serializable {
     public void setRole(UserRole role) {
         this.role = role;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+        if (registerDate != null ? !registerDate.equals(user.registerDate) : user.registerDate != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (salt != null ? !salt.equals(user.salt) : user.salt != null) return false;
+        return role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (registerDate != null ? registerDate.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (salt != null ? salt.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
+    }
 }

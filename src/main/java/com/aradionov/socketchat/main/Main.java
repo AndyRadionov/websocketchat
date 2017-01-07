@@ -28,7 +28,7 @@ public class Main {
         servletHandler.addServlet(new ServletHolder(new RegisterServlet(dbManager, onlineUsers)), RegisterServlet.PATH);
         servletHandler.addServlet(new ServletHolder(new LoginServlet(dbManager, onlineUsers)), LoginServlet.PATH);
         servletHandler.addServlet(new ServletHolder(new LogoutServlet(onlineUsers)), LogoutServlet.PATH);
-        servletHandler.addServlet(new ServletHolder(new WebSocketChatServlet(onlineUsers)), WebSocketChatServlet.PATH);
+        servletHandler.addServlet(new ServletHolder(new WebSocketChatServlet(dbManager, onlineUsers)), WebSocketChatServlet.PATH);
         servletHandler.addServlet(new ServletHolder(new UsersServlet(onlineUsers)), UsersServlet.PATH);
 
         ResourceHandler resourceHandler = new ResourceHandler();

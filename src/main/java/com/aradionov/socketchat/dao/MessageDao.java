@@ -2,6 +2,7 @@ package com.aradionov.socketchat.dao;
 
 import com.aradionov.socketchat.model.Message;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class MessageDao {
     }
 
     public List<Message> getAllMessages() {
-        return session.createCriteria(Message.class).list();
+        return session.createCriteria(Message.class).addOrder(Order.asc("sendDate")).list();
     }
 
-    public long inserMessage(Message message) {
+    public long insertMessage(Message message) {
         return (long) session.save(message);
     }
 }
