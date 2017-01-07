@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Map;
 
 import static com.aradionov.socketchat.util.ServletMessageProcessor.*;
 
@@ -22,10 +23,12 @@ import static com.aradionov.socketchat.util.ServletMessageProcessor.*;
  */
 public class RegisterServlet extends HttpServlet {
     public static final String PATH = "/api/signup";
-    private DBManager dbManager;
+    private final DBManager dbManager;
+    private final Map<String, String> onlineUsers;
 
-    public RegisterServlet(DBManager dbManager) {
+    public RegisterServlet(DBManager dbManager, Map<String, String> onlineUsers) {
         this.dbManager = dbManager;
+        this.onlineUsers = onlineUsers;
     }
 
     @Override
@@ -50,6 +53,8 @@ public class RegisterServlet extends HttpServlet {
             byte[] salt = PassEncryptTool.getSalt();
             String encryptedPass = PassEncryptTool.generateStrongPasswordHash(password, salt);
             userDao.inserUser(new User(login, encryptedPass, PassEncryptTool.toHex(salt), UserRole.USER));
+
+            onlineUsers.put(req.getSession().getId(), login);
             resp.setStatus(HttpServletResponse.SC_CREATED);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             writeResponseMessage(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");

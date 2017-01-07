@@ -13,18 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Map;
 
-import static com.aradionov.socketchat.util.ServletMessageProcessor.*;
+import static com.aradionov.socketchat.util.ServletMessageProcessor.writeResponseMessage;
 
 /**
  * @author Andrey Radionov
  */
 public class LoginServlet extends HttpServlet {
     public static final String PATH = "/api/login";
-    private DBManager dbManager;
+    private final DBManager dbManager;
+    private final Map<String, String> onlineUsers;
 
-    public LoginServlet(DBManager dbManager) {
+    public LoginServlet(DBManager dbManager, Map<String, String> onlineUsers) {
         this.dbManager = dbManager;
+        this.onlineUsers = onlineUsers;
     }
 
     @Override
@@ -52,6 +55,7 @@ public class LoginServlet extends HttpServlet {
 
             if (user.getPassword().equals(encryptedPass)) {
                 resp.setStatus(HttpServletResponse.SC_CREATED);
+                onlineUsers.put(req.getSession().getId(), login);
             }
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             writeResponseMessage(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");
