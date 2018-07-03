@@ -1,6 +1,6 @@
 # websocketchat
 
-Simple Java implementation of Web Scoket Chat Server.
+Simple Java implementation of WebSocket Chat Server.
 
 ### Used Libraries:
 
